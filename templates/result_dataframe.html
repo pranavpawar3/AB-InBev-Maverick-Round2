@@ -1,0 +1,51 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<title></title> -->
+	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='../static/styles.css') }}"> -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+<!-- 
+</head>
+<body>
+
+	<header>
+		<div class="container">
+		<div id="brandname">
+			ML App
+		</div>
+		<h2>Hate Speech Detector</h2>
+		
+	</div>
+	</header>
+	<p style="color:blue;font-size:20;text-align: center;"><b>Results for Comment</b></p>
+	<div class="results">
+
+	{% if prediction == 1%}
+	<h2 style="color:red;">Hate Speech</h2>
+	Hate Probability is {{probability}}%
+
+	{% elif prediction == 0%}
+	<h2 style="color:blue;">Not a Hate Speech</h2>
+	Hate Probability of {{probability}}%
+
+
+	{% endif %}
+
+	</div>
+
+</body>
+</html> -->
+
+<!doctype html>
+<title>Invoice Data</title>
+<!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
+<link rel="stylesheet" type="text/css" href="../static/styles_dataframe.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+
+<div class=page>
+  <h1>Invoice data - ABInBev Maverick</h1>
+  {% for table in tables %}
+    <h2>{{titles[loop.index]}}</h2>
+    {{ table|safe }}
+  {% endfor %}
+</div>
