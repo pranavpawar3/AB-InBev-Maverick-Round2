@@ -1,0 +1,7 @@
+{
+	"variables_config": {
+		"task": "batch",
+		"raw_invoice_path": "../Round 2",
+		"csv_store_location": "../csv_outputs_v2.0"
+	}
+}

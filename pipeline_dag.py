@@ -30,7 +30,10 @@ def change_dir(path):
 with DAG('abinbev_invoice_extraction_pipeline',
          default_args=default_args
          ) as dag:
-    
+    ### Join the paths according to docker env
+    raw_invoice_path = os.path.join("/usr/local/airflow",raw_invoice_path)
+    csv_store_location = os.path.join("/usr/local/airflow",csv_store_location)
+
     templated_command_api = """
     python /usr/local/airflow/dags/round2_api.py 
     """
@@ -38,7 +41,7 @@ with DAG('abinbev_invoice_extraction_pipeline',
     # python run_job.py --task batch --source_path ../Round\ 2 --csv_path ../csv_outputs_v2.0
 
     templated_command_runjob = """
-    python /usr/local/airflow/dags/run_job.py --task={{params.task}} --source_path={{params.raw_invoice_path}} --csv_path={{params.csv_store_location}}
+    python /usr/local/airflow/dags/run_job.py --task={{params.task}} --source_path="{{params.raw_invoice_path}}" --csv_path="{{params.csv_store_location}}"
     """
     templated_command_mongodb = """
     python /usr/local/airflow/dags/mongodb_upload.py --path={{params.csv_store_location}}
@@ -48,10 +51,10 @@ with DAG('abinbev_invoice_extraction_pipeline',
 
     pwd = BashOperator(task_id='pwd',depends_on_past=False,bash_command='pwd')
 
-    run_api = BashOperator(task_id='run_api',
-                        depends_on_past=False,
-                        bash_command=templated_command_api,
-                        dag=dag)
+    # run_api = BashOperator(task_id='run_api',
+    #                     depends_on_past=False,
+    #                     bash_command=templated_command_api,
+    #                     dag=dag)
 
     run_batch_extraction = BashOperator(task_id='run_batch_extraction',
                         depends_on_past=False,
@@ -61,7 +64,7 @@ with DAG('abinbev_invoice_extraction_pipeline',
                         'csv_store_location':csv_store_location},
                         dag=dag)
     
-    mongodb_integration = BashOperator(task_id='run_finetuning',
+    mongodb_integration = BashOperator(task_id='mongodb_integration',
                         depends_on_past=True,
                         bash_command=templated_command_mongodb,
                         params={'task': task,
@@ -69,4 +72,7 @@ with DAG('abinbev_invoice_extraction_pipeline',
                         'csv_store_location':csv_store_location},
                         dag=dag)
 
-pwd >> [run_api, run_batch_extraction] >> mongodb_integration
+# pwd >> [run_api, run_batch_extraction]
+# run_batch_extraction.set_downstream(mongodb_integration)
+
+pwd >> run_batch_extraction >> mongodb_integration
