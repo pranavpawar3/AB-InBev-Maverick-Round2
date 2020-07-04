@@ -164,13 +164,13 @@ myclient['ABInBev'].collection_names()
 # In[590]:
 
 
-def insert_data(filepath):
-    df = pd.read_csv(filepath)
-    df = df.rename(columns={'Total Amount.1':'Amount Item'})
-    df.to_json('yourjson.json')
-    jdf = open('yourjson.json').read() # loading the json file 
-    data = json.loads(jdf)
-    col.insert_one(data)
+# def insert_data(filepath):
+#     df = pd.read_csv(filepath)
+#     df = df.rename(columns={'Total Amount.1':'Amount Item'})
+#     df.to_json('yourjson.json')
+#     jdf = open('yourjson.json').read() # loading the json file 
+#     data = json.loads(jdf)
+#     col.insert_one(data)
 
 
 # In[592]:

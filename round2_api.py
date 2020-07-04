@@ -93,7 +93,8 @@ def uploaded_file(filename):
             
     response = requests.get('{}/export?status=to_review&format=csv&id={}'.format(que_url,doc_id),
                 headers={'Authorization': f'Token {auth_token}'})
-    
+    if not os.path.exists('../csv_outputs/'):
+        os.mkdir('../csv_outputs')
     path = "../csv_outputs/{}_outputs.csv".format(filepath.split('/')[-1].strip('.pdf'))
     f = open(path, "wb")
     # writer = csv.writer(f)
