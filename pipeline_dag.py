@@ -13,8 +13,10 @@ default_args = {
     'start_date': airflow.utils.dates.days_ago(1),# dt.datetime(2020, 6, 25),
     'concurrency': 1,
     'retries': 0,
-    'schedule_interval':'@once'
+    # 'schedule_interval':'@once'
+    'schedule_interval':'@daily'
 }
+
 # docker-compose run --rm webserver airflow variables --import /usr/local/airflow/dags/config/example_variables.json
 
 dag_config = Variable.get("variables_config", deserialize_json=True)

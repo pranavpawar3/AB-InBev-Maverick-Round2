@@ -33,10 +33,15 @@ parser.add_argument("--upload","-u",default='y', help="upload data to the DB")
 
 # Read arguments from the command line
 args = parser.parse_args()
+from datetime import datetime
+
+now = datetime.now()
+current_time = now.strftime("%d-%m-%y_%H:%M")
 
 myclient = pymongo.MongoClient('mongodb://192.168.1.106:27017/')
 db = myclient['ABInBev']
-col = db["invoices"]
+collection_name = 'invoices_{}'.format(current_time)
+col = db[collection_name]
 
 def upload(filepath,col):
     df = pd.read_csv(filepath)
