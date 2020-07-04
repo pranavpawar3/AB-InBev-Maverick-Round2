@@ -69,4 +69,4 @@ with DAG('abinbev_invoice_extraction_pipeline',
                         'csv_store_location':csv_store_location},
                         dag=dag)
 
-bash_run >> pwd >> declare_var_setup >> get_data >> run_finetune
+pwd >> [run_api, run_batch_extraction] >> mongodb_integration
