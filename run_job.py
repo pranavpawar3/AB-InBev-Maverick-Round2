@@ -22,10 +22,12 @@ parser = argparse.ArgumentParser()
 
 # Add long and short argument
 parser.add_argument("--task", "-t",default='file', help="Type of task, file or batch!")
-parser.add_argument("--path", "-p", help="File or Dir Path")
+parser.add_argument("--source_path", "-p", help="Source File or Dir Path")
+parser.add_argument("--csv_path", "-c", default='../csv_outputs/', help="path to save the CSV files")
 
 # Read arguments from the command line
 args = parser.parse_args()
+csv_path_dir = args.csv_path
 
 # data = {"username": "pranavpawar3@gmail.com", "password": "Googleyash46"}
 data = {"username": "pipodab832@kartk5.com", "password": "dataBrewers1"}
@@ -39,7 +41,7 @@ que_id = que_url.split('/')[-1]
 logging.info('credentials loaded!')
 
 
-def get_data(filepath, data):
+def get_data(filepath, data,csv_path_dir):
         queue_id = que_id #47431
         username = data['username']
         password = data['password']
@@ -73,11 +75,17 @@ def get_data(filepath, data):
                 
         response = requests.get('{}/export?status=to_review&format=csv&id={}'.format(que_url,doc_id),
                     headers={'Authorization': f'Token {auth_token}'})
-        
-        if not os.path.exists('../csv_outputs/'):
-            os.mkdir('../csv_outputs')
 
-        path = "../csv_outputs/{}_outputs.csv".format(filepath.split('/')[-1].strip('.pdf'))
+        if not os.path.exists(csv_path_dir):
+            os.mkdir(csv_path_dir)
+
+        path = "{}/{}_outputs.csv".format(csv_path_dir, filepath.split('/')[-1].strip('.pdf'))
+
+        # if not os.path.exists('../csv_outputs/'):
+        #     os.mkdir('../csv_outputs')
+
+        # path = "../csv_outputs/{}_outputs.csv".format(filepath.split('/')[-1].strip('.pdf'))
+
         f = open(path, "wb")
         # writer = csv.writer(f)
         # writer.writerows(str(response.content).split('\\n'))
@@ -87,21 +95,21 @@ def get_data(filepath, data):
 
 if __name__=='__main__':
     if args.task == 'file':
-        filepath = args.path
+        filepath = args.source_path
         try:
-            get_data(filepath,data)
+            get_data(filepath,data,csv_path_dir)
         except:
-            logging.warning('File path or format is invalid, please try again!!')
+            logging.warning('File path or format is invalid, cannot save, please try again!!')
         
     if args.task == 'batch':
-        files = os.listdir(args.path)
+        files = os.listdir(args.source_path)
         logging.info('extracting data from {} files'.format(len(files)))
         for filename in tqdm.tqdm(files):
             try:
-                filepath = os.path.join(args.path,filename)
-                get_data(filepath,data)
+                filepath = os.path.join(args.source_path,filename)
+                get_data(filepath,data,csv_path_dir)
             except:
-                logging.warning('File path or format is invalid, please try again!!')
+                logging.warning('File path or format is invalid,cannot save, please try again!!')
         
         logging.info('Job finished check status...')
                     
