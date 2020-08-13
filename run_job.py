@@ -29,8 +29,8 @@ parser.add_argument("--csv_path", "-c", default='../csv_outputs/', help="path to
 args = parser.parse_args()
 csv_path_dir = args.csv_path
 
-# data = {"username": "pranavpawar3@gmail.com", "password": "Googleyash46"}
-data = {"username": "pipodab832@kartk5.com", "password": "dataBrewers1"}
+# Kindly obtain your username and password for Rossum API and put it here; Rest is all taken care of!
+data = {"username": "YOUR USERNAME", "password": "YOUR PASSWORD"}
 auth_token = requests.post('https://api.elis.rossum.ai/v1/auth/login',data=data).json()['key']
 
 que_url = requests.get('https://api.elis.rossum.ai/v1/queues?page_size=1',
