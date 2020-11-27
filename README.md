@@ -24,7 +24,7 @@
   * In order to start the service, you will first have to clone the [airflow-tutorial](https://github.com/pranavpawar3/airflow-tutorial) repo.
   * Now, navigate to the [docker-compose.yaml]() file and change this [line](https://github.com/pranavpawar3/airflow-tutorial/blob/18ce212911aa0c268d64cd7c1e2a281c50ed15ce/docker-compose.yml#L34) according to your machine's local paths where the dags are stored.
   * In the same yaml file as above, change this [line](https://github.com/pranavpawar3/airflow-tutorial/blob/18ce212911aa0c268d64cd7c1e2a281c50ed15ce/docker-compose.yml#L35) to local path where your raw invoice data is getting stored (can be a dynamic location).
-  * Its preferred that you keep the directory struture of this repo same as it is for accurate docker volume map.
+  * Its preferred that you keep the directory structure of this repo same as it is for precise docker volume map.
 
 **Start the Service**
 
